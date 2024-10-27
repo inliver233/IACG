@@ -1,6 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
+    const switchToRegister = document.getElementById('switch-to-register');
+    const switchToLogin = document.getElementById('switch-to-login');
+    const loginFormContainer = document.querySelector('.login-form');
+    const registerFormContainer = document.querySelector('.register-form');
+
+    // 切换到注册表单
+    switchToRegister.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginFormContainer.style.display = 'none';
+        registerFormContainer.style.display = 'block';
+    });
+
+    // 切换到登录表单
+    switchToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        registerFormContainer.style.display = 'none';
+        loginFormContainer.style.display = 'block';
+    });
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();

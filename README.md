@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# IACG
-a project about iacg bbs
-=======
 # ACG社区网站项目
 
 这是一个基于React和Express构建的ACG(动漫、漫画、游戏)社区网站项目。
@@ -88,5 +84,10 @@ a project about iacg bbs
 - 私信功能
 - 通知系统
 
+## 贡献
 
->>>>>>> 067d30b (first commit)
+欢迎提交问题和拉取请求。对于重大更改,请先开issue讨论您想要更改的内容。
+
+## 许可证
+
+[MIT](https://choosealicense.com/licenses/mit/)

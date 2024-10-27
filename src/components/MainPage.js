@@ -1,50 +1,77 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import '../styles/acgbbs.css';
- // 确保正确引入 CSS 文件
 
 const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [user, setUser] = useState(null);
   const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [latestPosts, setLatestPosts] = useState([]);
+  const [posts, setPosts] = useState({});
   const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
   const videoRef = useRef(null);
 
+  const categories = [
+    { name: '动漫', slug: 'anime' },
+    { name: '漫画', slug: 'comic' },
+    { name: '游戏', slug: 'game' },
+    { name: '轻小说', slug: 'novel' },
+    { name: '漫展', slug: 'cosplay' },
+    { name: '手办', slug: 'figure' },
+  ];
+
   useEffect(() => {
-    // 模拟数据
-    
-    
-    const mockUser = { name: "用户名", avatar: "/images/default-avatar.png" };
+    const mockUser = { name: '用户名', avatar: '/images/default-avatar.png' };
     setUser(mockUser);
 
     const mockFeaturedPosts = [
-      { id: 1, title: "精选帖子1", image: "/images/featured1.jpg" },
-      { id: 2, title: "精选帖子2", image: "/images/featured2.jpg" },
-      { id: 3, title: "精选帖子3", image: "/images/featured3.jpg" },
+      { id: 1, title: '精选帖子1', image: '/images/featured1.jpg' },
+      { id: 2, title: '精选帖子2', image: '/images/featured2.jpg' },
+      { id: 3, title: '精选帖子3', image: '/images/featured3.jpg' },
     ];
     setFeaturedPosts(mockFeaturedPosts);
 
-    const mockLatestPosts = [
-      { id: 1, title: "最新帖子1", author: "作者1", category: "动漫", comments: 10, likes: 20 },
-      { id: 2, title: "最新帖子2", author: "作者2", category: "漫画", comments: 15, likes: 25 },
-      { id: 3, title: "最新帖子3", author: "作者3", category: "游戏", comments: 8, likes: 18 },
-    ];
-    setLatestPosts(mockLatestPosts);
+    const mockPosts = {};
+    categories.forEach(category => {
+      mockPosts[category.slug] = [
+        {
+          id: 1,
+          title: `${category.name}帖子1`,
+          author: '作者1',
+          category: category.name,
+          comments: 10,
+          likes: 20,
+        },
+        {
+          id: 2,
+          title: `${category.name}帖子2`,
+          author: '作者2',
+          category: category.name,
+          comments: 15,
+          likes: 25,
+        },
+        {
+          id: 3,
+          title: `${category.name}帖子3`,
+          author: '作者3',
+          category: category.name,
+          comments: 8,
+          likes: 18,
+        },
+      ];
+    });
+    setPosts(mockPosts);
 
-    // 尝试播放视频，捕获错误
     if (videoRef.current) {
-      videoRef.current.muted = true; // 确保视频被静音
+      videoRef.current.muted = true;
       videoRef.current.play().catch(error => {
-        console.error("Video playback failed:", error);
+        console.error('Video playback failed:', error);
       });
     }
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     e.preventDefault();
-    // 模拟搜索结果
     const mockResults = [
       { id: 1, title: '搜索结果1', type: 'post' },
       { id: 2, title: '搜索结果2', type: 'user' },
@@ -67,15 +94,20 @@ const MainPage = () => {
             </div>
             <nav className="top-menu">
               <ul>
-                <li><Link to="/">首页</Link></li>
-                <li><Link to="/anime">动漫</Link></li>
-                <li><Link to="/comic">漫画</Link></li>
-                <li><Link to="/game">游戏</Link></li>
-                <li><Link to="/novel">轻小说</Link></li>
-                <li><Link to="/cosplay">漫展</Link></li>
-                <li><Link to="/figure">手办</Link></li>
-                <li><Link to="/about">关于我们</Link></li>
-                <li><Link to="/more">更多</Link></li>
+                <li>
+                  <Link to="/">首页</Link>
+                </li>
+                {categories.map(category => (
+                  <li key={category.slug}>
+                    <Link to={`/${category.slug}`}>{category.name}</Link>
+                  </li>
+                ))}
+                <li>
+                  <Link to="/about">关于我们</Link>
+                </li>
+                <li>
+                  <Link to="/more">更多</Link>
+                </li>
               </ul>
             </nav>
           </div>
@@ -86,7 +118,7 @@ const MainPage = () => {
                   type="text"
                   placeholder="输入关键词搜索..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                 />
                 <button type="submit">搜索</button>
               </form>
@@ -96,73 +128,55 @@ const MainPage = () => {
                 <Link to="/profile">
                   <img src={user.avatar} alt="用户头像" className="user-avatar" />
                 </Link>
-                <Link to="/create-post" className="create-post-btn">发帖</Link>
-                <button onClick={handleLogout} className="logout-btn">登出</button>
+                <Link to="/create-post" className="create-post-btn">
+                  发帖
+                </Link>
+                <button onClick={handleLogout} className="logout-btn">
+                  登出
+                </button>
               </div>
             ) : (
               <div className="login-register">
-                <Link to="/login" className="login-btn">登录</Link>
+                <Link to="/login" className="login-btn">
+                  登录
+                </Link>
                 <span>/</span>
-                <Link to="/register" className="register-btn">注册</Link>
+                <Link to="/register" className="register-btn">
+                  注册
+                </Link>
               </div>
             )}
           </div>
         </div>
       </header>
       <div className="hero-banner">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="hero-video"
-        >
+        <video ref={videoRef} autoPlay loop muted playsInline className="hero-video">
           <source src="/images/background.mp4" type="video/mp4" />
-
           您的浏览器不支持视频标签。
         </video>
         <div className="wrapper">
           <h1>ACGBBS综合同人社区</h1>
           <p>提供ACGBBS一站式全方位的同人社区</p>
         </div>
+        <nav className="category-nav">
+          <div className="wrapper">
+            {categories.map(category => (
+              <Link key={category.slug} to={`/${category.slug}`} className="category-item">
+                <img src={`/images/${category.slug}-icon.png`} alt={category.name} />
+                <span>{category.name}</span>
+              </Link>
+            ))}
+            <Link to="/app" className="category-item">
+              <img src="/images/app.png" alt="APP下载" />
+              <span>APP下载</span>
+            </Link>
+            <Link to="/more" className="category-item">
+              <img src="/images/more-icon.png" alt="更多" />
+              <span>更多</span>
+            </Link>
+          </div>
+        </nav>
       </div>
-      <nav className="category-nav">
-        <div className="wrapper">
-          <Link to="/anime" className="category-item">
-            <img src="/images/anime-icon.png" alt="动漫" />
-            <span>动漫</span>
-          </Link>
-          <Link to="/comic" className="category-item">
-            <img src="/images/comic-icon.png" alt="漫画" />
-            <span>漫画</span>
-          </Link>
-          <Link to="/game" className="category-item">
-            <img src="/images/game-icon.png" alt="游戏" />
-            <span>游戏</span>
-          </Link>
-          <Link to="/novel" className="category-item">
-            <img src="/images/novel-icon.png" alt="轻小说" />
-            <span>轻小说</span>
-          </Link>
-          <Link to="/cosplay" className="category-item">
-            <img src="/images/cosplay-icon.png" alt="漫展" />
-            <span>漫展</span>
-          </Link>
-          <Link to="/figure" className="category-item">
-            <img src="/images/figure-icon.png" alt="手办" />
-            <span>手办</span>
-          </Link>
-          <Link to="/app" className="category-item">
-            <img src="/images/app.png" alt="APP下载" />
-            <span>APP下载</span>
-          </Link>
-          <Link to="/more" className="category-item">
-            <img src="/images/more-icon.png" alt="更多" />
-            <span>更多</span>
-          </Link>
-        </div>
-      </nav>
       <main className="content-area">
         <div className="wrapper">
           {/* 精选内容轮播 */}
@@ -178,19 +192,26 @@ const MainPage = () => {
             </div>
           </section>
 
-          {/* 最新帖子列表 */}
-          <section className="latest-posts">
-            <h2>最新帖子</h2>
-            <div className="post-list">
-              {latestPosts.map(post => (
-                <div key={post.id} className="post-item">
-                  <h3>{post.title}</h3>
-                  <p>作者: {post.author} | 分类: {post.category}</p>
-                  <p>评论: {post.comments} | 点赞: {post.likes}</p>
-                </div>
-              ))}
+          {/* 各个分类的帖子列表 */}
+          {categories.map(category => (
+            <div key={category.slug} className={`post-category-container ${category.slug}`}>
+              <h2 className="post-category-title">
+                {category.name}
+              </h2>
+              <div className="post-list">
+                {posts[category.slug]?.map(post => (
+                  <Link key={post.id} to={`/post/${post.id}`} className="post-item">
+                    <img src={`/images/${category.slug}-icon.png`} alt={post.title} />
+                    <h3>{post.title}</h3>
+                    <div className="post-info">
+                      <span>作者: {post.author}</span>
+                      <span>评论: {post.comments}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </section>
+          ))}
         </div>
       </main>
       <footer className="site-footer">
@@ -203,10 +224,18 @@ const MainPage = () => {
             <div className="footer-section">
               <h3>快速链接</h3>
               <ul>
-                <li><Link to="/about">关于我们</Link></li>
-                <li><Link to="/terms">使用条款</Link></li>
-                <li><Link to="/privacy">隐私政策</Link></li>
-                <li><Link to="/contact">联系我们</Link></li>
+                <li>
+                  <Link to="/about">关于我们</Link>
+                </li>
+                <li>
+                  <Link to="/terms">使用条款</Link>
+                </li>
+                <li>
+                  <Link to="/privacy">隐私政策</Link>
+                </li>
+                <li>
+                  <Link to="/contact">联系我们</Link>
+                </li>
               </ul>
             </div>
             <div className="footer-section">
