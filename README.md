@@ -24,7 +24,6 @@
 - 主页展示最新帖子
 - 发布、查看和评论帖子
 - 用户个人资料页面
-- 搜索功能
 - 响应式设计,适配多种设备
 
 ## 技术栈
@@ -64,17 +63,7 @@
 
 默认情况下,后端服务器将在 http://localhost:5000 运行,前端开发服务器在 http://localhost:8080 运行。
 
-## API 端点
 
-- 用户API: `/api/users`
-  - POST /register: 用户注册
-  - POST /login: 用户登录
-  - GET /me: 获取当前用户信息
-- 帖子API: `/api/posts`
-  - GET /: 获取所有帖子
-  - POST /: 创建新帖子
-  - GET /:id: 获取特定帖子
-  - POST /:id/comments: 对帖子发表评论
 
 ## 待实现功能
 
@@ -88,6 +77,3 @@
 
 欢迎提交问题和拉取请求。对于重大更改,请先开issue讨论您想要更改的内容。
 
-## 许可证
-
-[MIT](https://choosealicense.com/licenses/mit/)
